@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Remedios | Vanderbilt ECE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #F0EEE9;
+            --accent: #2D6A4F;
+            --text: #000;
+            --body: #000;
+            --subtle: #000;
+            --border: rgba(26, 26, 26, 0.09);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Newsreader', Georgia, serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1.25rem;
+            line-height: 1.6;
+            letter-spacing: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* NAV BUTTON */
+        .nav-btn {
+            position: fixed;
+            top: 28px;
+            right: 28px;
+            z-index: 1001;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-btn span {
+            display: block;
+            width: 24px;
+            height: 1.5px;
+            background: var(--text);
+            transition: transform 0.32s ease, opacity 0.22s ease;
+            transform-origin: center;
+        }
+
+        .nav-btn.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+        .nav-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-btn.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+        /* NAV OVERLAY */
+        .nav-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: clamp(28px, 8vw, 96px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease;
+        }
+
+        .nav-overlay.open { opacity: 1; pointer-events: all; }
+
+        .nav-links { list-style: none; }
+
+        .nav-links li { margin: 0; }
+
+        .nav-links a {
+            display: inline-block;
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(2.2rem, 7vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 1.18;
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.18s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        /* LAYOUT */
+        main {
+            max-width: 38.75rem;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        section {
+            padding: 48px 0;
+        }
+
+        /* HERO */
+        #hero {
+            padding: 120px 0 24px;
+        }
+
+        .hero-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .photo-wrap {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .photo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        .hero-identity { flex: 1; }
+
+        .hero-name {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 1.1;
+            white-space: nowrap;
+            margin-bottom: 0.2em;
+        }
+
+        .hero-title {
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--body);
+            letter-spacing: 0;
+            margin-bottom: 0;
+        }
+
+        .hero-line {
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--body);
+            border-left: 2px solid var(--accent);
+            padding-left: 18px;
+        }
+
+        /* SECTION LABEL */
+        .section-label {
+            display: block;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 1.1;
+            text-transform: none;
+            color: var(--accent);
+            margin-bottom: 0.5em;
+        }
+
+        /* RESEARCH */
+        .research-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 44px;
+        }
+
+        .research-pull-quote {
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--body);
+            border-left: 2px solid var(--accent);
+            padding-left: 18px;
+        }
+
+        .research-item h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        .research-item p {
+            line-height: 1.6;
+            font-weight: 400;
+            color: var(--body);
+        }
+
+        .research-item p + p { margin-top: 12px; }
+
+        .research-item ol {
+            margin-top: 16px;
+            padding-left: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .research-item ol li {
+            display: grid;
+            grid-template-columns: 22px 1fr;
+            line-height: 1.6;
+            font-weight: 400;
+            color: var(--body);
+        }
+
+        .li-num {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .research-item ol li strong {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* PUBLICATIONS */
+        .pub-intro {
+            line-height: 1.6;
+            color: var(--body);
+            margin-bottom: 22px;
+        }
+
+        .scholar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 2px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: opacity 0.18s;
+        }
+
+        .scholar-link:hover { opacity: 0.6; }
+
+        /* BIO */
+        .bio-body {
+            line-height: 1.6;
+            font-weight: 400;
+            color: var(--body);
+        }
+
+        .bio-body p + p { margin-top: 22px; }
+
+        .bio-link {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid currentColor;
+            padding-bottom: 1px;
+            transition: opacity 0.18s;
+        }
+
+        .bio-link:hover { opacity: 0.6; }
+
+        /* CONTACT */
+        .contact-secondary {
+            display: inline-block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--body);
+            text-decoration: none;
+            border-bottom: 1px solid currentColor;
+            padding-bottom: 2px;
+            transition: color 0.18s;
+        }
+
+        .contact-secondary:hover { color: var(--accent); }
+
+        /* FOOTER */
+        footer {
+            max-width: 38.75rem;
+            margin: 0 auto;
+            padding: 16px 40px 56px;
+            font-size: 0.9em;
+            font-style: italic;
+            color: var(--subtle);
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            main { padding: 0 24px; }
+            footer { padding: 24px 24px 48px; }
+
+            #hero { padding: 100px 0 80px; }
+            section { padding: 64px 0; }
+
+            .nav-btn { top: 22px; right: 22px; }
+            .nav-overlay { padding-left: 28px; }
+
+            .hero-header { gap: 20px; }
+            .photo-wrap { width: 108px; height: 108px; }
+            .hero-name { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+            .research-grid { gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HAMBURGER -->
+    <button class="nav-btn" id="navBtn" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- NAV OVERLAY -->
+    <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+        <ul class="nav-links">
+            <li><a href="#research" class="nav-link">Research</a></li>
+            <li><a href="#publications" class="nav-link">Publications</a></li>
+            <li><a href="#bio" class="nav-link">Bio</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section id="hero">
+            <div class="hero-header">
+                <div class="photo-wrap">
+                    <img src="profile_photo.png" alt="Lucas Remedios">
+                </div>
+                <div class="hero-identity">
+                    <h1 class="hero-name">Lucas Remedios</h1>
+                    <p class="hero-title">Vanderbilt, Assistant Professor of the Practice, ECE</p>
+                </div>
+            </div>
+            <p class="hero-line">I use AI to measure interpretable signatures of disease in medical data at scale.</p>
+        </section>
+
+        <!-- RESEARCH -->
+        <section id="research" style="padding-top: 16px;">
+            <span class="section-label">Research</span>
+            <div class="research-grid">
+
+                <p class="research-pull-quote">In type 2 diabetes, we found the most important shared anatomical trait between thin and obese patients was surprisingly poor muscle quality, pointing toward strength training as a potential preventative.</p>
+
+                <div class="research-item">
+                    <h3>Background</h3>
+                    <p>Medicine started imaging the human body in 1895. Imaging is great, because without it, you have to be cut open to see precisely what's happening inside. But for most of that history, a physician looked at the image and made a subjective call.</p>
+                    <p>In the modern era, the biggest leaps for humanity have come from unlocking hidden value in data at scale. Today, society is sitting on decades of accumulated human health data. Just at Vanderbilt, we have over one billion medical images. The value locked inside this data across global institutions could fundamentally change humanity's understanding of disease.</p>
+                </div>
+
+                <div class="research-item">
+                    <h3>Big Questions</h3>
+                    <p>Extracting insights from medical imaging at scale could answer big open questions in medicine. For example, type 2 diabetes is correlated with being overweight. But then why do some thin people get it? And why do some obese people never get it?</p>
+                    <p>Medical imaging data may hold the answers. But extracting them at scale is harder than it sounds.</p>
+                </div>
+
+                <div class="research-item">
+                    <h3>Problems</h3>
+                    <p>There are real obstacles to answering these questions with AI.</p>
+                    <ol>
+                        <li>
+                            <span class="li-num">1.</span>
+                            <span><strong>Data Quality:</strong> People in the hospital are sick, and clinical scans are often taken fast under urgent conditions. Image quality is frequently poor and inconsistent. Doctors are smart enough to see past it, but AI isn't yet and most systems break when this kind of data scales. Images also look different across scanners, settings, and institutions, which confuses AI and leads to mistakes.</span>
+                        </li>
+                        <li>
+                            <span class="li-num">2.</span>
+                            <span><strong>Physician Trust:</strong> Most medical AI is a black box. Why should a doctor trust it? If an AI model makes a claim, physicians rightly want the evidence and the rationale.</span>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="research-item">
+                    <h3>My Approach</h3>
+                    <p>I use deep learning to locate organs and structures in medical images, then measure them computationally. Every patient becomes a precise, interpretable fingerprint; a collection of anatomical measurements where every number traces back to exactly what was measured and where. When this is used to assess where a patient sits on the spectrum of disease, a physician can see directly which measurements are driving the model's decisions and what those measurements mean.</p>
+                    <p>This is robust to the messy, inconsistent data of real clinical environments and produces outputs physicians can actually interpret. The framework applies to any disease with imaging data.</p>
+                    <p>In type 2 diabetes, we found the most important shared anatomical trait between thin and obese patients was surprisingly poor muscle quality, pointing toward strength training as a potential preventative.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PUBLICATIONS -->
+        <section id="publications">
+            <span class="section-label">Publications</span>
+            <p class="pub-intro">My work in AI and medical imaging has resulted in over 30 peer-reviewed publications and an h-index of 10. View my full record on Google Scholar.</p>
+            <a href="https://scholar.google.com/citations?user=r6HOOmgAAAAJ&hl=en&oi=ao" class="scholar-link" target="_blank" rel="noopener">
+                Google Scholar &rarr;
+            </a>
+        </section>
+
+        <!-- BIO -->
+        <section id="bio">
+            <span class="section-label">Bio</span>
+            <div class="bio-body">
+
+                <p>I was born in Silicon Valley and raised by both yin and yang. Mom: abstract artist, Dad: software consultant from the dot-com craziness. My teenage years were spent plunking out blues guitar at an arts school by the sea in British Columbia. This led to starting a band with my big brother and ending up in Nashville, working with Buddy Guy's Grammy Award-winning producer.</p>
+
+                <p>My brother eventually went back to school for Computer Science and I followed. But in college I was reinvigorated as I developed a strong curiosity for both computers and biology which led me to a PhD program at Vanderbilt under <a href="https://scholar.google.com/citations?user=tmTcH0QAAAAJ&hl=en&oi=ao" class="bio-link" target="_blank" rel="noopener">Bennett Landman</a>, one of the best in the field. Through Bennett, my intellectual lineage runs unbroken back to Isaac Newton and Galileo. It was five years in a pressure cooker: get it done yesterday, 100% correct. Those two things pulled against each other, and the friction lit my hair on fire. But eventually I found the bucket of water.</p>
+
+                <p>Now I'm a professor down the hall from the lab where I cut my teeth, building a master's program in applied AI from the ground up.</p>
+
+                <p>I'm excited about the future and all the possible good that can be done with the current pace of technological development.</p>
+
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <span class="section-label">Contact</span>
+            <a href="https://www.linkedin.com/in/lucasremedios/" class="contact-secondary" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+        </section>
+
+    </main>
+
+    <footer>
+        &copy; 2026 Lucas Remedios
+    </footer>
+
+    <script>
+        const btn = document.getElementById('navBtn');
+        const overlay = document.getElementById('navOverlay');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function closeNav() {
+            btn.classList.remove('open');
+            overlay.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            overlay.setAttribute('aria-hidden', 'true');
+        }
+
+        btn.addEventListener('click', () => {
+            const isOpen = btn.classList.contains('open');
+            if (isOpen) {
+                closeNav();
+            } else {
+                btn.classList.add('open');
+                overlay.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+                overlay.setAttribute('aria-hidden', 'false');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', closeNav);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeNav();
+        });
+    </script>
+
+</body>
+</html>
