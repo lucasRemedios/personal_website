@@ -281,15 +281,19 @@
         .bio-link:hover { opacity: 0.6; }
 
         /* CONTACT */
+        .contact-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
         .contact-email-link {
-            display: block;
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--body);
             text-decoration: none;
-            margin-bottom: 16px;
             border-bottom: 1px solid currentColor;
-            display: inline-block;
             padding-bottom: 2px;
             transition: color 0.18s;
         }
@@ -434,7 +438,7 @@
 
                 <p>I was born in Silicon Valley and raised by both yin and yang. Mom: abstract artist, Dad: software consultant from the dot-com craziness. My teenage years were spent plunking out blues guitar at an arts school by the sea in British Columbia. This led to starting a band with my big brother and ending up in Nashville, working with Buddy Guy's Grammy Award-winning producer.</p>
 
-                <p>My brother eventually went back to school for Computer Science and I followed. But in college I was reinvigorated as I developed a strong curiosity for both computers and biology which led me to a PhD program at Vanderbilt under <a href="https://scholar.google.com/citations?user=tmTcH0QAAAAJ&hl=en&oi=ao" class="bio-link" target="_blank" rel="noopener">Bennett Landman</a>, one of the best in the field. Through Bennett, my intellectual lineage runs unbroken back to Isaac Newton and Galileo. It was five years in a pressure cooker: get it done yesterday, 100% correct. Those two things pulled against each other, and the friction lit my hair on fire. But eventually I found the bucket of water.</p>
+                <p>My brother eventually went back to school for Computer Science and I followed. But in college I developed a strong curiosity for both computers and biology which led me to a PhD program at Vanderbilt under <a href="https://scholar.google.com/citations?user=tmTcH0QAAAAJ&hl=en&oi=ao" class="bio-link" target="_blank" rel="noopener">Bennett Landman</a>, one of the best in the field. Through Bennett, my intellectual lineage runs unbroken back to Isaac Newton and Galileo. It was five years in a pressure cooker: get it done yesterday, 100% correct. Those two things pulled against each other, and the friction lit my hair on fire. But eventually I found the bucket of water.</p>
 
                 <p>Now I'm a professor down the hall from the lab where I cut my teeth, building a master's program in applied AI from the ground up.</p>
 
@@ -446,8 +450,10 @@
         <!-- CONTACT -->
         <section id="contact">
             <span class="section-label">Contact</span>
-            <a href="mailto:lucas.remedios.ai@gmail.com" class="contact-email-link">lucas.remedios.ai@gmail.com</a>
-            <a href="https://www.linkedin.com/in/lucasremedios/" class="contact-secondary" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+            <div class="contact-stack">
+                <a href="mailto:lucas.remedios.ai@gmail.com" class="contact-email-link">lucas.remedios.ai@gmail.com</a>
+                <a href="https://www.linkedin.com/in/lucasremedios/" class="contact-secondary" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+            </div>
         </section>
 
     </main>
