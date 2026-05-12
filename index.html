@@ -281,6 +281,21 @@
         .bio-link:hover { opacity: 0.6; }
 
         /* CONTACT */
+        .contact-email-link {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--body);
+            text-decoration: none;
+            margin-bottom: 16px;
+            border-bottom: 1px solid currentColor;
+            display: inline-block;
+            padding-bottom: 2px;
+            transition: color 0.18s;
+        }
+
+        .contact-email-link:hover { color: var(--accent); }
+
         .contact-secondary {
             display: inline-block;
             font-size: 0.82rem;
@@ -431,6 +446,7 @@
         <!-- CONTACT -->
         <section id="contact">
             <span class="section-label">Contact</span>
+            <a href="mailto:lucas.remedios.ai@gmail.com" class="contact-email-link">lucas.remedios.ai@gmail.com</a>
             <a href="https://www.linkedin.com/in/lucasremedios/" class="contact-secondary" target="_blank" rel="noopener">LinkedIn &rarr;</a>
         </section>
 
